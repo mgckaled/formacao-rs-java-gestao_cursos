@@ -12,7 +12,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -22,14 +25,15 @@ public class CourseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @Length(min = 3, max = 100, message = "O nome do curso dever ter de 3 e 100 caracteres" )
+    
+    @Length(min = 3, max = 100, message = "O nome do curso dever ter de 3 e 100 caracteres")
     private String name;
 
     @NotBlank
     private String category;
 
-    @NotBlank
+    @Pattern(regexp = "^(Ativo|Inativo)$", message = "Defina se o curso está Ativo ou Inativo")
+    @Column(nullable = false)
     private String status;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -39,4 +43,14 @@ public class CourseEntity {
     @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
