@@ -1,10 +1,6 @@
 package com.br.mgck.gestao_cursos.modules.courses.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +20,7 @@ public class CourseController {
 
     @PostMapping("/")
     public void create(@Valid @RequestBody CourseEntity courseEntity) {
-        System.out.println(courseEntity.getName());
+        this.courseRepository.save(courseEntity);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<CourseEntity>> listCoursesEntity() {
-        List<CourseEntity> courses = courseRepository.findAll();
-        return ResponseEntity.ok(courses);
-    }
 }

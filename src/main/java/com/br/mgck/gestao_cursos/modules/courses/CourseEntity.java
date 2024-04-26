@@ -3,17 +3,14 @@ package com.br.mgck.gestao_cursos.modules.courses;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -37,20 +34,7 @@ public class CourseEntity {
     private String status;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 }
