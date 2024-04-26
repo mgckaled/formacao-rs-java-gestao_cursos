@@ -3,6 +3,7 @@ package com.br.mgck.gestao_cursos.modules.courses;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -22,19 +23,20 @@ public class CourseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
+    @Length(min = 3, max = 100, message = "O nome do curso dever ter de 3 e 100 caracteres" )
     private String name;
 
+    @NotBlank
     private String category;
 
     @NotBlank
     private String status;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private LocalDateTime updatedAt;
 }
